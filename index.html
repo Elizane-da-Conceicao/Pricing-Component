@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="image/favicon.png">
+        <title>Pricing Component</title>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+            body {
+                background-color: hsl(240, 78%, 98%);
+                background-image: url('image/bg-top.svg'), url('image/bg-bottom.svg');
+                background-repeat: no-repeat;    
+                background-position: top right, bottom left; 
+                font-family: 'Montserrat', sans-serif;                    
+                line-height: 1.5;
+                position: relative;
+            }            
+            *, *::before, *::after {
+                box-sizing: border-box;
+            }
+            .pricing-component-wrap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 50px 0;
+            }
+            h1 {    
+                color: hsl(233, 13%, 49%);
+            }
+            .check-switch {
+                width: 50px;
+                height: 30px;
+                position: relative;
+
+            }
+            .check-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .check-switch-circle {
+                background: linear-gradient(to right, hsl(236, 72%, 79%), hsl(237, 63%, 64%));
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: 35px;
+                cursor: pointer;
+            }
+            .check-switch-circle:active { 
+                background: hsl(234, 14%, 74%);
+            }
+            .check-switch-circle:before {
+                content: '';
+                position: absolute;
+                width: 21px;
+                height: 21px;
+                background-color: white;
+                left: 4px;
+                bottom: 4.4px;
+                border-radius: 50%;
+                transition: 0.5s;
+                -webkit-transition: 0.5s;
+            }                       
+            .check-switch input:checked + .check-switch-circle:before {
+                transform: translateX(100%);
+                -webkit-transform: translateX(100%);
+                -ms-transform: translateX(100%);
+            }
+            .annually-monthly-switch {
+                display: grid;
+                grid: 1fr / 2fr 1fr 2fr;
+                align-items: center;
+                margin: 20px;
+            }
+            .annually-monthly-switch span {
+                text-align: center;
+                color: hsl(234, 14%, 74%);
+                font-size: 15px;        
+            }
+            .package-hired {
+                width: 70%;
+                margin: 60px auto;
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                
+            }            
+            .package-hired.monthly {
+                display: none;
+            }
+            .recommended-one {
+                margin: -20px 0;
+                background: linear-gradient(to bottom, hsl(236, 72%, 79%), hsl(237, 63%, 64%));
+                display: flex;
+                align-items: center;
+            } 
+            .recommended-one .boxes h6,
+            .recommended-one .boxes p {
+                color: white;
+            }
+            .recommended-one .boxes a {
+                background: white;
+                color: hsl(237, 63%, 64%);
+            }
+            .recommended-one .boxes a:active {
+                border: 1px solid white;
+                color: white;
+            }
+            .boxes-wrap {
+                width: 100%;
+                padding: 30px;                
+                background-color: white;
+                border-radius: 10px;
+                -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+                -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+                box-shadow: 0px 6px 15px 0px rgba(0,0,0,0.1);
+            } 
+            .boxes {
+                width: 100%;                
+            }
+            .boxes p {
+                margin: 0;
+                color: hsl(233, 13%, 49%);
+            }   
+            .boxes .main-price {
+                font-size: 60px;
+                color: hsl(232, 13%, 33%);
+                content: "\0024";
+            }
+            .main-price::before{
+                content: "\0024";
+                font-size: 40px;    
+                position: relative;
+                vertical-align: middle;
+                margin-right: 7px;         
+            }
+            .boxes p::after {
+                content: "";
+                height: 1px;
+                background-color: hsl(234, 14%, 74%, 0.5);
+                width: 100%;  
+                display: block;
+                margin: 15px 0;
+            }   
+            .boxes a {
+                text-decoration: none;
+                background: linear-gradient(to right, hsl(236, 72%, 79%), hsl(237, 63%, 64%));
+                color: white;
+                padding: 10px 0;
+                width: 100%;
+                display: block;
+                font-size: 13px;
+                border-radius: 5px;
+                margin-top: 30px;
+                letter-spacing: 1px;
+                border: 1px solid transparent;
+                background-origin: border-box;
+            }       
+            .boxes a:active{
+                background: transparent;
+                color: hsl(237, 63%, 64%);
+                border: 1px solid hsl(236, 72%, 79%);
+            }
+            .name-option {
+                font-size: 18px;
+                margin: 0 0 15px 0;
+                color: hsl(233, 13%, 49%);
+            } 
+            @media (max-width: 899px) {
+                .package-hired {
+                    flex-direction: column;
+                    justify-content: space-between;
+                    width: 400px;
+                }
+                .recommended-one {
+                    margin: 30px 0;
+                }    
+            }
+            @media (max-width: 459px) {
+                .package-hired {
+                    width: 90%;
+                    min-width: 310px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pricing-component-wrap">
+            <h1>Our Pricing</h2>
+            <div class="annually-monthly-switch">
+                <span>Annually</span>
+                <label class="check-switch">
+                    <input type="checkbox" id="on">
+                    <span class="check-switch-circle"></span>
+                </label>
+                <span>Monthly</span>
+            </div>   
+            <div class="package-hired annually">
+                <div class="basic-one-wrap boxes-wrap">
+                    <div class="basic-one boxes">
+                        <h6 class="name-option">Basic</h6>
+                        <p class="main-price">199.99</p>
+                        <p>500 GB Storage</p>
+                        <p>2 Users Allowed</p>
+                        <p>Send up to 3 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>         
+                <div class="professional-one-wrap boxes-wrap recommended-one">
+                    <div class="professional-one boxes">
+                        <h6 class="name-option">Professional</h6>
+                        <p class="main-price">249.99</p>
+                        <p>1 TB Storage</p>
+                        <p>5 Users Allowed</p>
+                        <p>Send up to 10 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>
+                <div class="master-one-wrap boxes-wrap">
+                    <div class="master-one boxes">
+                        <h6 class="name-option">Master</h6>
+                        <p class="main-price">399.99</p>
+                        <p>2 TB Storage</p>
+                        <p>10 Users Allowed</p>
+                        <p>Send up to 20 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>
+            </div> 
+            <div class="package-hired monthly">
+                <div class="basic-one-wrap boxes-wrap">
+                    <div class="basic-one boxes">
+                        <h6 class="name-option">Basic</h6>
+                        <p class="main-price">19.99</p>
+                        <p>500 GB Storage</p>
+                        <p>2 Users Allowed</p>
+                        <p>Send up to 3 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>         
+                <div class="professional-one-wrap boxes-wrap recommended-one">
+                    <div class="professional-one boxes">
+                        <h6 class="name-option">Professional</h6>
+                        <p class="main-price">24.99</p>
+                        <p>1 TB Storage</p>
+                        <p>5 Users Allowed</p>
+                        <p>Send up to 10 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>
+                <div class="master-one-wrap boxes-wrap">
+                    <div class="master-one boxes">
+                        <h6 class="name-option">Master</h6>
+                        <p class="main-price">39.99</p>
+                        <p>2 TB Storage</p>
+                        <p>10 Users Allowed</p>
+                        <p>Send up to 20 GB</p>
+                        <a href="#">LEARN MORE</a>
+                    </div>                    
+                </div>
+            </div>            
+        </div>                        
+    </body>    
+    <script>
+        var $toggle = document.querySelector('#on');
+        var $annual = document.querySelector('.annually');
+        var $month = document.querySelector('.monthly');
+        function toggled() {
+        if ($toggle.checked == true) {
+            $month.style.display = "flex";
+            $annual.style.display = "none"
+        } else {
+            $month.style.display = "none";
+                $annual.style.display = "flex";
+        }
+        }
+        $toggle.addEventListener('click', toggled);
+    </script>
+</html>
